@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/raphpaquet/tinnyapp/issues"
   },
-  "homepage": "https://github.com/raphpaquet/tinnyapp#readme"
+  "homepage": "https://github.com/raphpaquet/tinnyapp#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
