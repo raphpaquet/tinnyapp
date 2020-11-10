@@ -12,14 +12,15 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-const generateRandomString = function() {
-  let text = '';
-  let caracters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  for (let car of caracters) {
-    text += caracters.charAt(Math.floor(Math.random() * 6))
-    return text;
+function generateRandomString() {
+  let newShortURL = "";
+  let possibilities = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (var i = 0; i < 6; i++) {
+      newShortURL += possibilities.charAt(Math.floor(Math.random() * possibilities.length));
   }
+  return newShortURL;
 };
+
 
 app.get("/", (req, res) => {
   res.send("Hello!");
@@ -49,9 +50,16 @@ app.get('/urls/:shortURL', (req, res) => {
 });
 
 app.post('/urls', (req, res) => {
-  console.log(req.body);
-  res.send('Ok');
-})
+  const shortURL = generateRandomString();
+  urlDatabase[shortURL] = req.body.longURL;
+  res.redirect('/u/:shortURL')
+});
+
+app.get('/u/:shortURL', (req, res) => {
+  const shortURL = req.params.shortURL
+  const longURL = urlDatabase[shortURL]
+  res.redirect(longURL)
+});
 
 
 
