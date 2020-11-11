@@ -10,7 +10,18 @@ app.set('view engine', 'ejs');
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
 
-
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
+}
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
@@ -44,10 +55,15 @@ app.get('/urls', (req,res) => {
   res.render('urls_index', templateVars)
 });
 
+app.get('/register', (req, res) => {
+res.render('url_registration')
+});
+
 app.get('/urls/new', (req, res) => {
   const templateVars = { urls: urlDatabase, username: req.cookies["username"] };
   res.render('urls_new', templateVars);
 });
+
 
 app.get('/urls/:shortURL', (req, res) => {
   const shortURL = req.params.shortURL
@@ -87,6 +103,11 @@ app.post('/logout', (req, res) => {
   res.clearCookie('username')
   res.redirect('/urls');
 })
+
+app.post('/register', (req, res) => {
+  res.send('Ok register');
+});
+
 
 
 
