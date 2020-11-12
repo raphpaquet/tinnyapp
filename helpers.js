@@ -29,8 +29,13 @@ const addNewUser = (email, password, db) => {
   
   // check if we already have that email in our Db
   const findUserByEmail = (email, usersDb) => {
+    console.log('hello')
+    console.log({usersDb})
     for (let userId in usersDb) {
+      console.log({userId})
       if (usersDb[userId].email === email) {
+        //console.log('userDb', usersDb)
+        //console.log('usersDb[userId', usersDb[userId])
         return usersDb[userId];
       }
     }
@@ -38,9 +43,11 @@ const addNewUser = (email, password, db) => {
   };
   
   
+
   // check if email match with password 
-  const authenticateUser = (email, password) => {
-    const user = findUserByEmail(email);
+  const authenticateUser = (email, password, usersDb) => {
+    const user = findUserByEmail(email, usersDb);
+    //console.log({user})
   
     if (user && user.password === password) {
       return user;
@@ -49,7 +56,17 @@ const addNewUser = (email, password, db) => {
     }
   };
   
+  // returns the URLs where the userID is equal to the id of the currently logged-in user
+
+  const urlsForUser = (db, id) => {
+    let userURL = {};
+    for (let url in db) {
+      if (id === db[id]) {
+        userURL[url] = db[url];
+      }
+    }
+    return userURL;
+  }
   
-  
-  module.exports = { generateRandomString, addNewUser, findUserByEmail, authenticateUser };
+  module.exports = { generateRandomString, addNewUser, findUserByEmail, authenticateUser, urlsForUser };
 
