@@ -1,3 +1,6 @@
+const bcrypt = require('bcrypt');
+const saltRounds = 10; 
+
 
 function generateRandomString() {
   let newShortURL = "";
@@ -17,7 +20,7 @@ const addNewUser = (email, password, db) => {
   const newUserObj = {
     id: userId,
     email,
-    password
+    password : bcrypt.hashSync(password, saltRounds)
   };
 
   db[userId] = newUserObj;
@@ -49,7 +52,7 @@ const addNewUser = (email, password, db) => {
     const user = findUserByEmail(email, usersDb);
     //console.log({user})
   
-    if (user && user.password === password) {
+    if (user && bcrypt.compareSync(password, user.password)) {
       return user;
     } else {
       return false;

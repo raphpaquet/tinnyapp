@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const bcrypt = require('bcrypt');
+const saltRounds = 10; 
 const PORT = 8080; // default port 8080
 const { findUserByEmail, authenticateUser, generateRandomString, addNewUser, urlsForUser } = require('./helpers')
 
@@ -93,7 +95,7 @@ app.post('/urls/:shortURL/delete', (req, res) => {
   if (userURL[shortURL] === urlDatabase[shortURL]) {
   delete urlDatabase[req.params.shortURL];
   }
-  
+
   res.redirect('/urls');
 });
 
