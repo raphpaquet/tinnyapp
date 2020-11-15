@@ -22,9 +22,9 @@ const addNewUser = (email, password, db) => {
     email,
     password : bcrypt.hashSync(password, saltRounds)
   };
-
   db[userId] = newUserObj;
   return userId;
+  
 };
   
   
@@ -55,7 +55,7 @@ const authenticateUser = (email, password, users) => {
 const urlsForUser = (db, id) => {
   let userURL = {};
   for (let url in db) {
-    if (id === db[id]) {
+    if (id === db[url].userID) {
       userURL[url] = db[url];
     }
   }
