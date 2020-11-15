@@ -36,9 +36,9 @@ const urlDatabase = {
 app.get("/", (req, res) => {
   const userID = req.session.user_id;
   if (userID) {
-    res.redirect('/urls')
+    res.redirect('/urls');
   } else {
-    res.redirect('/login')
+    res.redirect('/login');
   }
 });
 
@@ -49,9 +49,8 @@ app.get('/urls', (req,res) => {
 });
 
 app.post('/urls', (req, res) => {
-  const templateVars = { urls: urlDatabase, user: usersDb[req.session.user_id] };
-  if(!req.session.user_id) {
-    res.status(401).send('Please login to create new URLs')
+  if (!req.session.user_id) {
+    res.status(401).send('Please login to create new URLs');
   } else {
     const userID = req.session.user_id;
     const longURL = req.body.longURL;
@@ -67,7 +66,7 @@ app.get('/urls/new', (req, res) => {
   if (templateVars.user) {
     res.render('urls_new', templateVars);
   } else {
-    res.render('url_login', templateVars)
+    res.render('url_login', templateVars);
   }
 });
 
@@ -78,7 +77,7 @@ app.get('/urls/:shortURL', (req, res) => {
   if (req.session.user_id === urlDatabase[templateVars.shortURL].userID) {
     res.render('urls_show', templateVars);
   } else {
-    res.status(401).send('Wrong TinyURL')
+    res.status(401).send('Wrong TinyURL');
   }
 });
 
@@ -86,14 +85,12 @@ app.get('/urls/:shortURL', (req, res) => {
 app.get('/u/:shortURL', (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = urlDatabase[shortURL].longURL;
-  const templateVars = { urls: urlDatabase, shortURL, longURL: urlDatabase[shortURL].longURL, user: usersDb[req.session.user_id] };
   res.redirect(longURL);
 });
 
 // DELETE/UPDATE ROUTE
 app.post('/urls/:shortURL/delete', (req, res) => {
   const shortURL = req.params.shortURL;
-  const user = usersDb[req.session.user_id];
 
   if (req.session.user_id === urlDatabase[shortURL].userID) {
     delete urlDatabase[req.params.shortURL];
@@ -106,12 +103,11 @@ app.post('/urls/:shortURL/delete', (req, res) => {
 app.post('/urls/:shortURL', (req, res) => {
   const shortURL = req.params.shortURL;
   const longURL = req.body.longURL;
-  const templateVars = { shortURL, longURL, user: usersDb[req.session.user_id] };
   if (req.session.user_id === urlDatabase[shortURL].userID) {
     urlDatabase[shortURL].longURL = longURL,
     res.redirect(`/urls/${shortURL}`);
   } else {
-    res.status(401).send('Not allowed to edit this item')
+    res.status(401).send('Not allowed to edit this item');
   }
 });
 
@@ -119,9 +115,9 @@ app.post('/urls/:shortURL', (req, res) => {
 app.get('/login', (req, res) => {
   const templateVars = { user: usersDb[req.session.user_id] };
   if (templateVars.user) {
-    res.redirect('/urls')
+    res.redirect('/urls');
   } else {
-  res.render('url_login', templateVars);
+    res.render('url_login', templateVars);
   }
 });
 
@@ -140,10 +136,10 @@ app.post('/login', (req, res) => {
 // REGISTER ROUTES
 app.get('/register', (req, res) => {
   const templateVars = { user: usersDb[req.session.user_id] };
-  if (templateVars.user){
-    res.redirect('/urls')
+  if (templateVars.user) {
+    res.redirect('/urls');
   } else {
-  res.render('url_register', templateVars);
+    res.render('url_register', templateVars);
   }
 });
 
